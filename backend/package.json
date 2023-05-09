@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "multi": "nodemon cluster.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "loadtest": "^5.2.0",
+    "mongodb-memory-server": "^8.12.2",
+    "mongoose": "^7.1.0",
+    "nodemon": "^2.0.22",
+    "pm2": "^5.3.0"
+  }
+}
