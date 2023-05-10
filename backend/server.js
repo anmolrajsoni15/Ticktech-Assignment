@@ -7,6 +7,9 @@ const {connectDatabase} = require('./config/database');
 require('dotenv').config({path: "./config/config.env"});
 app.use(express.json());
 
+const serverPort = process.env.PORT;
+exports.serverPort = serverPort;
+
 const user = require('./routes/userRoute');
 app.use("/api", user);
 

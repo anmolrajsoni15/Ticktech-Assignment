@@ -50,6 +50,9 @@ if (cluster.isMaster) {
   require("dotenv").config({ path: "./config/config.env" });
   app.use(express.json());
 
+  const clusterPort = parseInt(process.env.PORT) + cluster.worker.id;
+  exports.clusterPort = clusterPort;
+
   const user = require("./routes/userRoute");
   app.use("/api", user);
 
@@ -58,7 +61,7 @@ if (cluster.isMaster) {
     for (let i = 0; i < 100000000; i++) {
       cnt++;
     }
-    res.send(`Hello World!. This is from ${process.pid}`);
+    res.send(`Hello World!. This is from ${process.pid} running on ${parseInt(process.env.PORT) + cluster.worker.id}`);
   });
 
   app.use((req, res, next) => {
