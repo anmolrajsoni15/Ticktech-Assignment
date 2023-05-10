@@ -43,7 +43,7 @@ First we have to setup a basic app to implement the CRUD operations.
   The application have basically 5 endpoints.
     1. **GET** `api/users` is used to get all persons
         - Server returns answer with `status code` **200** and all users records
-    2. **GET** `api/users/{userId}` 
+    2. **GET** `api/users/{userId}`
         - Server returns answer with `status code` **200** and record with `id === userId` if it exists
         - Server returns answer with `status code` **400** and corresponding message if `userId` is invalid.
         - Server returns answer with `status code` **404** and corresponding message if record with `id === userId` doesn't exist
@@ -51,9 +51,9 @@ First we have to setup a basic app to implement the CRUD operations.
         - Server returns answer with `status code` **201** and newly created record
         - Server returns answer with `status code` **400** and corresponding message if request `body` does not contain **required** fields
     4. **PUT** `api/users/{userId}` is used to update existing user
-        - Server returns answer with` status code` **200** and updated record
-        - Server returns answer with` status code` **400** and corresponding message if `userId` is invalid
-        - Server returns answer with` status code` **404** and corresponding message if record with `id === userId` doesn't exist
+        - Server returns answer with`status code` **200** and updated record
+        - Server returns answer with`status code` **400** and corresponding message if `userId` is invalid
+        - Server returns answer with`status code` **404** and corresponding message if record with `id === userId` doesn't exist
     5. **DELETE** `api/users/{userId}` is used to delete existing user from database
         - Server returns answer with `status code` **204** if the record is found and deleted
         - Server returns answer with `status code` **400** and corresponding message if `userId` is invalid.
@@ -62,14 +62,17 @@ First we have to setup a basic app to implement the CRUD operations.
 
 - **Step 5** <u> [Handle Errors](https://github.com/anmolrajsoni15/Ticktech-Assignment/blob/main/backend/middlewares/error.js) </u>
   - Handle ***non-existing endpoints***
+
     ```
     app.use((req, res, next) => {
         res.status(404).send('Sorry, we could not find the page you were looking for!');
     });
     ```
+
     If a user goes to some random endpoints the server returns a user friendly message like `Sorry, we could not find the page you were looking for!`
 
   - Handle ***Errors on the server side***
+
     ```
     function handleError(err, req, res, next) {
         if (res.headersSent) {
@@ -80,11 +83,13 @@ First we have to setup a basic app to implement the CRUD operations.
         res.status(500).send('Something went wrong on the server!');
     }
     ```
+
 <br>
 
 - **Step 6** <u> [Set up the program for testing]() </u>
   The application runs in two mode i) Production ii) Development.
   Add the following code in your `package.json` file
+
   ```
   "scripts": {
     "start": "node server.js", // to run the program in production mode
@@ -111,23 +116,27 @@ First we have to setup a basic app to implement the CRUD operations.
   Now the question are arrised why we need to implement horizontal scaling. Let's understand it by runnig loadtest on the server.
   After starting the server run the command `npx loadtest -n 1000 -c 100 http://localhost:4000` on the terminal.
   <div style="text-align: center; width: 80%; margin: 0px auto;">
-  <img src="images/load1.png">
-  <div style="font-size: 12px;"><u>LoadTest without Clustering</u></div>
+    <img src="images/load1.png">
+    <div style="font-size: 12px;">
+      <u>LoadTest without Clustering</u>
+    </div>
   </div>
   &nbsp;
 
   <div style="text-align: center; width: 80%; margin: 0px auto;">
-  <img src="images/load2.png">
-  <div style="font-size: 12px;"><u>LoadTest after Clustering</u></div>
+    <img src="images/load2.png">
+    <div style="font-size: 12px;">
+      <u>LoadTest after Clustering</u>
+    </div>
   </div>
   &nbsp;
   We can clearly see that the time reduces drastically to just half after clustering. Initially it was taking approx 182s and after load balancing it is reduced to just 92.76s.
 
   &nbsp;
   To run the multiple instances of application add `multi: "nodemon cluster.js"` in your script tag in package.json file.
-  Here cluster.js is a file which runs the multiple instances of the program. First if checks if the cluster is Master, if it is then it distributes the works via load balancer (which works on Round-Robin approach) to workers i.e., all the instances of the cpu present in the user's system. In my case, my system has 4 instances of cpu. 
+  Here cluster.js is a file which runs the multiple instances of the program. First if checks if the cluster is Master, if it is then it distributes the works via load balancer (which works on Round-Robin approach) to workers i.e., all the instances of the cpu present in the user's system. In my case, my system has 4 instances of cpu.
     <img src="images/image1.png" style="width: 70%; margin: 0px auto;">
-    - On `localhost:4000/api` load balancer is listening for requests
+  - On `localhost:4000/api` load balancer is listening for requests
   - On `localhost:4001/api`, `localhost:4002/api`, `localhost:4003/api`, `localhost:4004/api` workers are listening for requests from load balancer.
   - When user sends request to `localhost:4000/api`, load balancer sends this request to `localhost:4001/api`, next user request is sent to `localhost:4002/api` and so on.
 
@@ -138,4 +147,5 @@ First we have to setup a basic app to implement the CRUD operations.
   &nbsp;
   &nbsp;
   &nbsp;
-#### Thats all from my side. It was an amazing Assignment to work upon. I got to learn new concepts and enjoyed working on it.
+
+#### Thats all from my side. It was an amazing Assignment to work upon. I got to learn new concepts and enjoyed working on it
