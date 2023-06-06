@@ -71,6 +71,7 @@ if (cluster.isMaster) {
   app.use(express.json());
 
   const clusterPort = parseInt(process.env.PORT) + cluster.worker.id;
+  module.exports.clusterPort = clusterPort;
 
   const user = require("./routes/userRoute");
   app.use("/api", user);
